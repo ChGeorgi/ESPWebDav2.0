@@ -13,7 +13,6 @@
 #define SD_CS		15
 
 
-
 ESPWebDAV dav;
 String statusMessage;
 bool initFailed = false;
@@ -22,18 +21,15 @@ bool initFailed = false;
 // ------------------------
 void setup() {
 // ------------------------
-	Serial.begin(115200);
+  Serial.begin(115200);
+  Serial.println("");
 	WiFi.hostname(HOSTNAME);
-	  // ----- WIFI -------
-  // Set hostname first
- WiFiManager wifiManager;
+  WiFiManager wifiManager;
   //wifiManager.autoConnect("AutoConnectAP");
   // or use this for auto generated name ESP + ChipID
   wifiManager.autoConnect();
 
 
-	
-	Serial.println("");
 
 	// Wait for connection
 	while(WiFi.status() != WL_CONNECTED) {
@@ -41,14 +37,14 @@ void setup() {
 		Serial.print(".");
 	}
 
-	Serial.println("");
-	Serial.print("Connected to "); Serial.println(ssid);
-	Serial.print ("IP address: "); Serial.println(WiFi.localIP());
-	Serial.print ("RSSI: "); Serial.println(WiFi.RSSI());
-	Serial.print ("Mode: "); Serial.println(WiFi.getPhyMode());
+  Serial.println("");
+  Serial.println("Connected to ");// Serial.println(ssid);
+  Serial.println("IP address: "); Serial.println(WiFi.localIP());
+  Serial.println("RSSI: "); Serial.println(WiFi.RSSI());
+  Serial.println("Mode: "); Serial.println(WiFi.getPhyMode());
 	
 	// start the SD DAV server
-	if(!dav.init(SD_CS, SPI_FULL_SPEED, SERVER_PORT))		{
+	if(!dav.init(SD_CS, SERVER_PORT))		{
 		statusMessage = "Failed to initialize SD Card";
 		Serial.print("ERROR: "); Serial.println(statusMessage);
 		initFailed = true;
@@ -70,5 +66,4 @@ void loop() {
 		dav.handleClient();
 	}
 }
-
 
